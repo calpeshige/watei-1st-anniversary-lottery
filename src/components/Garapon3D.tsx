@@ -96,7 +96,7 @@ function BingoMachine({ isSpinning, winner, prizes }: { isSpinning: boolean; win
 
         {/* 回転する玉たち */}
         <g transform={`rotate(${rotation} 300 300)`}>
-          {balls.map((ball, index) => {
+          {balls.map((ball) => {
             const x = 300 + Math.cos((ball.angle * Math.PI) / 180) * ball.distance;
             const y = 300 + Math.sin((ball.angle * Math.PI) / 180) * ball.distance;
 

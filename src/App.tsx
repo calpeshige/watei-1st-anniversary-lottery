@@ -120,7 +120,6 @@ function App() {
   };
 
   const allStockEmpty = isAllStockEmpty(prizes);
-  const totalStock = prizes.reduce((sum, p) => sum + p.stock, 0);
 
   return (
     <div className="min-h-screen relative overflow-hidden">
