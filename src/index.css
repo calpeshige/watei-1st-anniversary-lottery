@@ -1,0 +1,369 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Zen+Maru+Gothic:wght@400;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-japanese;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+    /* 暖かみのある木目調の背景 */
+    background: linear-gradient(180deg, #3d2415 0%, #2d1810 50%, #1a0e08 100%);
+  }
+
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* 木目のテクスチャ風 */
+    background-image:
+      repeating-linear-gradient(90deg,
+        rgba(139, 69, 19, 0.08) 0px,
+        rgba(139, 69, 19, 0.08) 3px,
+        transparent 3px,
+        transparent 6px),
+      repeating-linear-gradient(0deg,
+        rgba(101, 67, 33, 0.1) 0px,
+        rgba(101, 67, 33, 0.1) 2px,
+        transparent 2px,
+        transparent 5px);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  body::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    /* 暖かい照明効果 */
+    background: radial-gradient(ellipse at top, rgba(255, 200, 100, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at bottom, rgba(139, 69, 19, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 2;
+  }
+}
+
+@layer components {
+  /* 和風ボタン */
+  .premium-button {
+    @apply relative px-10 py-5 text-xl font-bold;
+    @apply transition-all duration-300 ease-out;
+    /* 朱色の提灯風 */
+    background: linear-gradient(180deg, #dc143c 0%, #a01020 100%);
+    color: #fffef0;
+    border: 3px solid #8b0000;
+    border-radius: 12px;
+    box-shadow:
+      0 4px 0 #6b0000,
+      0 8px 20px rgba(220, 20, 60, 0.4),
+      inset 0 2px 0 rgba(255, 255, 255, 0.2);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .premium-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    transition: transform 0.5s;
+  }
+
+  .premium-button:hover::before {
+    transform: translate(25%, 25%);
+  }
+
+  .premium-button:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow:
+      0 6px 0 #6b0000,
+      0 12px 24px rgba(220, 20, 60, 0.5),
+      inset 0 2px 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .premium-button:active {
+    transform: translateY(2px) scale(0.98);
+    box-shadow:
+      0 2px 0 #6b0000,
+      0 4px 12px rgba(220, 20, 60, 0.3),
+      inset 0 2px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  .premium-button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+    background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+    border-color: #1a1a1a;
+    box-shadow: 0 4px 0 #1a1a1a, 0 8px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  /* 和風カード */
+  .glass-card {
+    @apply relative p-6;
+    background: linear-gradient(135deg, rgba(255, 248, 220, 0.95) 0%, rgba(255, 245, 200, 0.9) 100%);
+    border: 2px solid #d4af37;
+    border-radius: 8px;
+    box-shadow:
+      0 4px 0 #8b7355,
+      0 8px 20px rgba(0, 0, 0, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    color: #2d1810;
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent);
+  }
+
+  /* 景品カード */
+  .prize-card {
+    @apply relative overflow-hidden;
+    @apply transition-all duration-300;
+    background: linear-gradient(135deg, rgba(255, 248, 220, 0.9) 0%, rgba(255, 240, 200, 0.85) 100%);
+    border: 2px solid #d4af37;
+    border-radius: 12px;
+    box-shadow:
+      0 3px 0 #8b7355,
+      0 6px 15px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  }
+
+  /* Hover effect removed per user request */
+  /* .prize-card:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow:
+      0 6px 0 #8b7355,
+      0 12px 25px rgba(0, 0, 0, 0.35),
+      inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  } */
+
+  /* ネオンテキスト */
+  .neon-text {
+    text-shadow: 0 0 10px currentColor,
+                 0 0 20px currentColor,
+                 0 0 30px currentColor,
+                 0 0 40px currentColor;
+  }
+
+  /* 3Dガラポンコンテナ */
+  .garapon-container {
+    @apply relative flex items-center justify-center;
+    perspective: 2000px;
+    transform-style: preserve-3d;
+  }
+
+  /* メタリックグラデーション */
+  .metallic-gold {
+    background: linear-gradient(135deg,
+      #FFD700 0%,
+      #FFED4E 20%,
+      #FFD700 40%,
+      #FFC700 60%,
+      #FFD700 80%,
+      #FFED4E 100%
+    );
+    background-size: 200% 200%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  .metallic-silver {
+    background: linear-gradient(135deg,
+      #E8E8E8 0%,
+      #FFFFFF 20%,
+      #C0C0C0 40%,
+      #A8A8A8 60%,
+      #C0C0C0 80%,
+      #FFFFFF 100%
+    );
+    background-size: 200% 200%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  .metallic-bronze {
+    background: linear-gradient(135deg,
+      #CD7F32 0%,
+      #E6A872 20%,
+      #CD7F32 40%,
+      #B56B25 60%,
+      #CD7F32 80%,
+      #E6A872 100%
+    );
+    background-size: 200% 200%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+
+  /* パーティクルエフェクト背景 */
+  .particle-bg {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .particle-bg::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, rgba(255,215,0,0.3), transparent),
+      radial-gradient(2px 2px at 60% 70%, rgba(0,217,255,0.2), transparent),
+      radial-gradient(1px 1px at 50% 50%, rgba(255,255,255,0.1), transparent),
+      radial-gradient(1px 1px at 80% 10%, rgba(189,0,255,0.2), transparent);
+    background-size: 200px 200px, 300px 300px, 100px 100px, 250px 250px;
+    animation: float 20s linear infinite;
+    pointer-events: none;
+  }
+
+  /* グローエフェクト */
+  .glow-pulse {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  /* ホログラフィック効果 */
+  .holographic {
+    background: linear-gradient(45deg,
+      rgba(255, 0, 132, 0.1) 0%,
+      rgba(51, 0, 255, 0.1) 20%,
+      rgba(0, 217, 255, 0.1) 40%,
+      rgba(0, 255, 148, 0.1) 60%,
+      rgba(255, 230, 0, 0.1) 80%,
+      rgba(255, 0, 132, 0.1) 100%
+    );
+    background-size: 200% 200%;
+    animation: shimmer 5s linear infinite;
+  }
+
+  /* 提灯のグロー効果 */
+  .lantern-glow {
+    animation: lanternGlow 3s ease-in-out infinite;
+  }
+
+  /* 桜の花びらアニメーション */
+  .sakura-petals {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 50;
+    overflow: hidden;
+  }
+
+  .sakura-petals::before,
+  .sakura-petals::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(ellipse at center,
+      rgba(255, 182, 193, 0.8) 0%,
+      rgba(255, 192, 203, 0.6) 30%,
+      rgba(255, 182, 193, 0.4) 60%,
+      transparent 100%);
+    border-radius: 50% 0 50% 0;
+    animation: sakuraFall 15s linear infinite;
+  }
+
+  .sakura-petals::before {
+    left: 10%;
+    animation-delay: 0s;
+    animation-duration: 12s;
+  }
+
+  .sakura-petals::after {
+    left: 80%;
+    animation-delay: 4s;
+    animation-duration: 18s;
+  }
+}
+
+@layer utilities {
+  .text-shadow-lg {
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+
+  .text-shadow-xl {
+    text-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+  }
+
+  .bg-radial-gradient {
+    background: radial-gradient(ellipse at center, var(--tw-gradient-stops));
+  }
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate(10%, 10%) rotate(360deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1) drop-shadow(0 0 20px currentColor);
+  }
+  50% {
+    opacity: 0.8;
+    filter: brightness(1.2) drop-shadow(0 0 40px currentColor);
+  }
+}
+
+@keyframes lanternGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px rgba(220, 20, 60, 0.6)) brightness(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 40px rgba(220, 20, 60, 0.9)) brightness(1.1);
+  }
+}
+
+@keyframes sakuraFall {
+  0% {
+    top: -10%;
+    transform: translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 110%;
+    transform: translateX(100px) rotate(360deg);
+    opacity: 0;
+  }
+}
