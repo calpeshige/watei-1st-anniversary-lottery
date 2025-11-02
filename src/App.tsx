@@ -3,7 +3,7 @@ import type { Prize } from './types';
 import { INITIAL_PRIZES, AVAILABLE_COLORS } from './types';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { drawPrize, isAllStockEmpty, getNextAvailableColor } from './utils/lottery';
-import { playSpinSound, playWinSound, playClickSound, playErrorSound } from './utils/sounds';
+import { playSpinSound, playWinSound, playClickSound, playErrorSound, prepareWinSound } from './utils/sounds';
 import { Garapon3D } from './components/Garapon3D';
 import { WinnerDisplay } from './components/WinnerDisplay';
 import { PrizeManager } from './components/PrizeManager';
@@ -30,6 +30,9 @@ function App() {
     setWinner(null);
     setShowWinner(false);
     setTriggerConfetti(false);
+
+    // iOS対策: 当選音を事前にロード
+    prepareWinSound();
 
     // 回転音を再生
     playSpinSound(3000);

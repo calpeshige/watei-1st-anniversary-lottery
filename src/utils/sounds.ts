@@ -57,6 +57,20 @@ export function playSpinSound(duration: number = 5000) {
 }
 
 /**
+ * 当選音の事前ロード（iOS対策）
+ * ユーザーインタラクション時に呼び出して、後のsetTimeout内での再生を可能にする
+ */
+export function prepareWinSound() {
+  preloadAudio();
+
+  // iOS対策: atariAudioをロードしておく
+  if (atariAudio && atariAudio.paused) {
+    // load()を呼び出してファイルを事前読み込み
+    atariAudio.load();
+  }
+}
+
+/**
  * 当選音（atari.mp3を再生）
  */
 export function playWinSound(rarity: 'common' | 'rare' | 'super-rare' = 'common') {
