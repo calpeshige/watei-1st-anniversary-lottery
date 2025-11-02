@@ -32,14 +32,12 @@ export function PrizeManager({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-      onClick={onClose}
     >
       <motion.div
         initial={{ scale: 0.9, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
         className="bg-japanese-paper rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden relative"
-        onClick={e => e.stopPropagation()}
       >
         {/* 閉じるボタン */}
         <button
