@@ -135,14 +135,23 @@ export function PrizeManager({
                 <div className="w-28">
                   <label className="block text-sm font-bold text-gray-900 mb-1">在庫</label>
                   <input
-                    type="number"
+                    type="text"
                     inputMode="numeric"
                     pattern="[0-9]*"
-                    min="0"
                     value={prize.stock}
-                    onChange={e =>
-                      onUpdatePrize(prize.id, { stock: Math.max(0, parseInt(e.target.value) || 0) })
-                    }
+                    onChange={e => {
+                      const value = e.target.value;
+                      // 数字のみ許可（空文字も許可）
+                      if (value === '' || /^\d+$/.test(value)) {
+                        onUpdatePrize(prize.id, { stock: value === '' ? 0 : parseInt(value) });
+                      }
+                    }}
+                    onBlur={e => {
+                      // フォーカスが外れた時に空なら0にする
+                      if (e.target.value === '') {
+                        onUpdatePrize(prize.id, { stock: 0 });
+                      }
+                    }}
                     className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:outline-none focus:border-red-600 text-center bg-white text-gray-900 text-xl font-bold"
                   />
                 </div>
@@ -151,17 +160,25 @@ export function PrizeManager({
                 <div className="w-28">
                   <label className="block text-sm font-bold text-gray-900 mb-1">確率(%)</label>
                   <input
-                    type="number"
+                    type="text"
                     inputMode="decimal"
-                    min="0"
-                    max="100"
-                    step="0.1"
                     value={prize.probability.toFixed(1)}
-                    onChange={e =>
-                      onUpdatePrize(prize.id, {
-                        probability: Math.max(0, Math.min(100, parseFloat(e.target.value) || 0)),
-                      })
-                    }
+                    onChange={e => {
+                      const value = e.target.value;
+                      // 数字と小数点のみ許可（空文字も許可）
+                      if (value === '' || /^\d*\.?\d*$/.test(value)) {
+                        const numValue = value === '' ? 0 : parseFloat(value);
+                        onUpdatePrize(prize.id, {
+                          probability: Math.max(0, Math.min(100, numValue)),
+                        });
+                      }
+                    }}
+                    onBlur={e => {
+                      // フォーカスが外れた時に空なら0にする
+                      if (e.target.value === '') {
+                        onUpdatePrize(prize.id, { probability: 0 });
+                      }
+                    }}
                     className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:outline-none focus:border-red-600 text-center bg-white text-gray-900 text-xl font-bold"
                   />
                 </div>
