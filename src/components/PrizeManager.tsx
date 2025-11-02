@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Prize } from '../types';
 import { AVAILABLE_COLORS } from '../types';
 import { getNextAvailableColor } from '../utils/lottery';
@@ -18,6 +19,9 @@ export function PrizeManager({
   onRemovePrize,
   onClose,
 }: PrizeManagerProps) {
+  // 各フィールドの入力中の値を保持するstate
+  const [editingValues, setEditingValues] = useState<Record<string, { stock?: string; probability?: string }>>({});
+
   const usedColors = prizes.map(p => p.color);
   const canAddMore = usedColors.length < AVAILABLE_COLORS.length;
   const nextColor = getNextAvailableColor(usedColors, AVAILABLE_COLORS);
@@ -138,17 +142,29 @@ export function PrizeManager({
                     type="text"
                     inputMode="numeric"
                     pattern="[0-9]*"
-                    value={prize.stock}
+                    value={editingValues[prize.id]?.stock ?? prize.stock.toString()}
                     onChange={e => {
                       const value = e.target.value;
                       // 数字のみ許可（空文字も許可）
                       if (value === '' || /^\d+$/.test(value)) {
+                        setEditingValues(prev => ({
+                          ...prev,
+                          [prize.id]: { ...prev[prize.id], stock: value }
+                        }));
                         onUpdatePrize(prize.id, { stock: value === '' ? 0 : parseInt(value) });
                       }
                     }}
-                    onBlur={e => {
-                      // フォーカスが外れた時に空なら0にする
-                      if (e.target.value === '') {
+                    onBlur={() => {
+                      // フォーカスが外れた時にeditingValuesをクリア
+                      setEditingValues(prev => {
+                        const newValues = { ...prev };
+                        if (newValues[prize.id]) {
+                          delete newValues[prize.id].stock;
+                        }
+                        return newValues;
+                      });
+                      // 空なら0にする
+                      if (prize.stock === 0 && (editingValues[prize.id]?.stock === '' || !editingValues[prize.id]?.stock)) {
                         onUpdatePrize(prize.id, { stock: 0 });
                       }
                     }}
@@ -162,20 +178,34 @@ export function PrizeManager({
                   <input
                     type="text"
                     inputMode="decimal"
-                    value={prize.probability.toFixed(1)}
+                    value={editingValues[prize.id]?.probability ?? prize.probability.toString()}
                     onChange={e => {
                       const value = e.target.value;
                       // 数字と小数点のみ許可（空文字も許可）
                       if (value === '' || /^\d*\.?\d*$/.test(value)) {
+                        setEditingValues(prev => ({
+                          ...prev,
+                          [prize.id]: { ...prev[prize.id], probability: value }
+                        }));
                         const numValue = value === '' ? 0 : parseFloat(value);
-                        onUpdatePrize(prize.id, {
-                          probability: Math.max(0, Math.min(100, numValue)),
-                        });
+                        if (!isNaN(numValue)) {
+                          onUpdatePrize(prize.id, {
+                            probability: Math.max(0, Math.min(100, numValue)),
+                          });
+                        }
                       }
                     }}
-                    onBlur={e => {
-                      // フォーカスが外れた時に空なら0にする
-                      if (e.target.value === '') {
+                    onBlur={() => {
+                      // フォーカスが外れた時にeditingValuesをクリア
+                      setEditingValues(prev => {
+                        const newValues = { ...prev };
+                        if (newValues[prize.id]) {
+                          delete newValues[prize.id].probability;
+                        }
+                        return newValues;
+                      });
+                      // 空なら0にする
+                      if (prize.probability === 0 && (editingValues[prize.id]?.probability === '' || !editingValues[prize.id]?.probability)) {
                         onUpdatePrize(prize.id, { probability: 0 });
                       }
                     }}
