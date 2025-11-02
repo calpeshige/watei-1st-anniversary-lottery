@@ -136,12 +136,14 @@ export function PrizeManager({
                   <label className="block text-sm font-bold text-gray-900 mb-1">在庫</label>
                   <input
                     type="number"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
                     min="0"
                     value={prize.stock}
                     onChange={e =>
                       onUpdatePrize(prize.id, { stock: Math.max(0, parseInt(e.target.value) || 0) })
                     }
-                    className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:outline-none focus:border-red-600 text-center bg-white text-gray-900"
+                    className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:outline-none focus:border-red-600 text-center bg-white text-gray-900 text-xl font-bold"
                   />
                 </div>
 
@@ -150,6 +152,7 @@ export function PrizeManager({
                   <label className="block text-sm font-bold text-gray-900 mb-1">確率(%)</label>
                   <input
                     type="number"
+                    inputMode="decimal"
                     min="0"
                     max="100"
                     step="0.1"
@@ -159,7 +162,7 @@ export function PrizeManager({
                         probability: Math.max(0, Math.min(100, parseFloat(e.target.value) || 0)),
                       })
                     }
-                    className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:outline-none focus:border-red-600 text-center bg-white text-gray-900"
+                    className="w-full px-4 py-2 border-2 border-gray-400 rounded-lg focus:outline-none focus:border-red-600 text-center bg-white text-gray-900 text-xl font-bold"
                   />
                 </div>
 
